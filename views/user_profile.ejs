@@ -1,18 +1,19 @@
 <h1>Welcome to user profile page</h1>
 <p>Hey, <%= user.name %></p>
 <p>your ID = <%= user.id %></p>
+<p>your patient_id = <%= user.patient_id %></p>
 <p>Your mail address is  <%= user.email %></p>
-<br>
+<p>Your gender is <%= user.gender %> </p>
 <br>
 <p>Do you want to schedule an appointment</p>
-<form action="" method="POST">
+<form action="/users/profile/fix-appointment" method="POST">
     <p>Select Doctor: </p>
-    <select id="myDoctor">
-        <option>Dr. Vishal</option>
-        <option>Dr. Lekhit</option>
+    <select name="doctor_id" type="text" id="doctor_id">
+        <option value="101">101</option>
+        <option value="102">102</option>
     </select>
-    <p>.</p>
     <p>Select date: </p>
-    <textarea></textarea>
+    <input type="date" id="date" name="date">
+    <input type="text" id="slot" name="slot">
     <button>Book your appointment</button>
 </form>
