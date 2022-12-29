@@ -12,7 +12,8 @@ module.exports.signUp = function (req, res) {
         return res.redirect('/users/profile');
     }
     return res.render('user_sign_up', {
-        title: "Sign Up"
+        title: "Sign Up",
+        // message: ""
     })
 };
 
@@ -25,7 +26,6 @@ module.exports.signIn = function (req, res) {
         title: "Sign In"
     });
 };
-
 //sign up the user
 module.exports.create = function (req, res) {
     if (req.body.password != req.body.confirm_password) {
@@ -37,13 +37,30 @@ module.exports.create = function (req, res) {
             return;
         }
         if (!user) {
-            User.create(req.body, function (err, user) {
+            User.find().count(function (err, count) {
                 if (err) {
-                    console.log('Error in creating the user while signing up');
+                    console.log(err);
                     return;
                 }
-                return res.redirect('/users/sign-in');
+                else {
+                    var userDetails = {
+                        patient_id: count + 1,
+                        email: req.body.email,
+                        password: req.body.password,
+                        name: req.body.name,
+                        gender: req.body.gender
+                    };
+                    User.create(userDetails, function (err, user) {
+                        if (err) {
+                            console.log(err);
+                            console.log('Error in creating the user while signing up');
+                            res.redirect('/users/create');
+                        }
+                        return res.redirect('/users/sign-in');
+                    })
+                }
             })
+
         }
         else {
             return res.redirect('back');
@@ -58,9 +75,27 @@ module.exports.createSession = function (req, res) {
     return res.redirect('/users/profile');
 };
 
-module.exports.destroySession = function(req, res){
-    req.logout(function(err) {
+module.exports.destroySession = function (req, res) {
+    req.logout(function (err) {
         if (err) { return next(err); }
         res.redirect('/');
+    });
+}
+
+module.exports.fixAppointment = function (req, res) {
+    var obj = new User(res.locals.user);
+    obj.appointments.push({
+        date: req.body.date,
+        slot: req.body.slot,
+        doctor_id: req.body.doctor_id
+    });
+    obj.save();
+    console.log('Successfully created an appointment');
+    return res.redirect('/users/profile/');
+}
+
+module.exports.viewAppointments = function(req,res){
+    return res.render('user_appointments',{
+        title: 'My appointments'
     });
 }
