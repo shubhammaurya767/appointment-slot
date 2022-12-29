@@ -15,9 +15,11 @@ router.post('/create', usersController.create);
 //using passport as middleware to auth
 router.post('/create-session', passport.authenticate(
     'local',
-    {failureRedirect: '/users/sign-in'},
+    {failureRedirect: '/users/sign-in'}
 ), usersController.createSession);
 
+router.post('/profile/fix-appointment',usersController.fixAppointment);
+router.get('/profile/view-appointments',usersController.viewAppointments);
 router.get('/sign-out', usersController.destroySession);
 
 module.exports = router;
