@@ -55,7 +55,6 @@ app.use(session({
 
     //use express router
     app.use('/',require('./routes'));
-    console.log('Heyy');
     
     app.listen(port, function(err){
         if(err)
