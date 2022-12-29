@@ -1,1 +1,10 @@
 <p>Welcome to user appointments page</p>
+<ol>
+    <% for( let i=user.appointments.length-1; i>=0; i-- ){ %>
+        <li> 
+            Date: <%= user.appointments[i].date %> <br>
+            Slot: <%= user.appointments[i].slot %> <br>
+            Doctor_ID: <%= user.appointments[i].doctor_id %> <br>
+        </li>
+    <% } %>
+</ol>
